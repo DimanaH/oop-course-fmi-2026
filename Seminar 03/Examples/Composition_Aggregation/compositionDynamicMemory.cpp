@@ -21,28 +21,31 @@ public:
     }
 };
 
+// This is also composition!
 class Human {
 private:
     int age;
-    Heart heart; // composition: а Human "owns" a heart and is responsible for its lifecycle
+    Heart* heart = nullptr; // composition: а Human "owns" a heart and is responsible for its lifecycle
     // ...
 
 public:
-    Human(int age, int bpm) : age(age), heart(bpm) {
+    Human(int age, int bpm) : age(age) {
+        this->heart = new Heart(bpm);
         cout << "Human()" << endl;
     }
 
     void print() const {
         cout << "Human age: " << age << '\n';
-        heart.print();
+        heart->print();
     }
 
     ~Human() {
+        delete heart; // ~Heart()
         cout << "~Human()" << endl;
-    } // ~Heart()
+    }
 };
 
 int main() {
     Human h(25, 72); //~Heart(72) ~Human()
     h.print();
-} // ~Human() ~Heart()
+} // ~Heart() ~Human()

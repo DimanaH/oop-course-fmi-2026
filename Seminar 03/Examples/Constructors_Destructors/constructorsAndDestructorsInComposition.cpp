@@ -39,10 +39,30 @@ struct C {
     }
 };
 
+struct X {
+    A* a = nullptr;
+    B* b = nullptr;
+
+    X() : b(new B()) /* you can also allocate memory through the member initializer list */ {
+        // since we call the constructor of A in the body, the constructor of B() will be called before A()
+        this->a = new A(); // A()
+        cout << "X()" << endl;
+    }
+
+    ~X() {
+        delete a; // ~A()
+        delete b; // ~B()
+        cout << "~X()" << endl;
+    }
+};
+
 int main() {
     C obj; // A() B() C()
 
     C arr[3]; // A() B() C() A() B() C() A() B() C()
+
+    X obj2; // B() A() X()
 }
+// ~A() ~B() ~X()
 // ~C() ~B() ~A() ~C() ~B() ~A() ~C() ~B() ~A()
 // ~C() ~B() ~A()
