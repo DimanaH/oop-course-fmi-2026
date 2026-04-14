@@ -47,16 +47,6 @@ std::size_t countArgs(const Args&... args) {
     return sizeof...(args);
 }
 
-// -----------------------------
-// Example 5: all arguments must be ints
-// -----------------------------
-
-template<typename... Args>
-int sumIntsOnly(Args... args) {
-    static_assert((std::is_same_v<Args, int> && ...), "All arguments must be int");
-    return (args + ...);
-}
-
 int main() {
     std::cout << "Recursive print:\n";
     print(42, 3.14, "hello", 'A');
@@ -72,11 +62,6 @@ int main() {
     std::cout << "\nCount arguments:\n";
     std::cout << countArgs(1, 2, 3, 4, 5) << '\n';
     std::cout << countArgs("a", 42, 3.14) << '\n';
-
-    std::cout << "\nOnly ints:\n";
-    std::cout << sumIntsOnly(1, 2, 3, 4, 5) << '\n';
-
-    // std::cout << sumIntsOnly(1, 2, 3.5); // compile-time error
 
     return 0;
 }
